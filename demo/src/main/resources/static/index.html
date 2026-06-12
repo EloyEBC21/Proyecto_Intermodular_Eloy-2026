@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game & Grill</title>
     <link rel="stylesheet" href="css/css.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <p id="error" style="color:red; display:none;">
+        Usuario o contraseña incorrectos
+    </p>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("error") === "true") {
+            document.getElementById("error").style.display = "block";
+        }
+    </script>
 </head>
+
 <body>
     <header>
         <!-- Logo -->
         Game & Grill
     </header>
     <main>
-        <form action="https://localhost:8080/registro" method="post">
+        <form action="http://localhost:8080/registro" method="post">
             <label>Usuario:</label><br>
             <input type="text" name="usuario" required><br><br>
 
             <label>Email:</label><br>
-            <input type="email" name="usuario" required><br><br>
-            
+            <input type="email" name="email" required><br><br>
+
             <label>Contraseña:</label><br>
-            <input type="password" name="usuario" required><br><br>
+            <input type="password" name="password" required><br><br>
 
             <label>Edad:</label><br>
             <input type="number" name="edad" min="0" max="120" required><br><br>
-            
+
             <button type="submit">Publicar</button>
         </form>
     </main>
-        <footer>
+    <footer>
         yo bien
     </footer>
 </body>
+
 </html>
