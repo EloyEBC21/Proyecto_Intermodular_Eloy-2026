@@ -13,19 +13,20 @@
         Game & Grill
     </header>
     <main>
-        <form action="">
+        <form action="https://localhost:8080/registro" method="post">
             <label>Usuario:</label><br>
             <input type="text" name="usuario" required><br><br>
 
             <label>Email:</label><br>
-            <input type="text" name="usuario" required><br><br>
+            <input type="email" name="usuario" required><br><br>
             
             <label>Contraseña:</label><br>
-            <input type="text" name="usuario" required><br><br>
+            <input type="password" name="usuario" required><br><br>
 
             <label>Edad:</label><br>
             <input type="number" name="edad" min="0" max="120" required><br><br>
             
+            <button type="submit">Publicar</button>
         </form>
     </main>
         <footer>
