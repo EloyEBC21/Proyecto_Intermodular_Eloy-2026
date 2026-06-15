@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game & Grill - Dashboard</title>
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
+
 <body>
 
     <header class="navbar">
@@ -20,65 +22,36 @@
     </header>
 
     <main class="dashboard-container">
-        
+
         <section class="section-header">
             <h2>Próximas partidas</h2>
             <p>Únete a una mesa y conoce jugadores</p>
         </section>
 
         <div class="games-grid">
-            
-            <article class="game-card">
-                <div class="card-content">
-                    <h3>Noche de D&D: La Mina Perdida</h3>
-                    <p class="game-tag">Dungeons & Dragons 5e</p>
-                    
-                    <div class="game-details">
-                        <div class="detail-item">📅 5 Jun - 19:00</div>
-                        <div class="detail-item">📍 Game & Grill - Local</div>
-                        <div class="detail-item">👥 4/6 jugadores</div>
-                    </div>
-                </div>
-                <button class="btn-join">Unirme a la partida</button>
-            </article>
 
-            <article class="game-card">
-                <div class="card-content">
-                    <h3>Torneo Catan</h3>
-                    <p class="game-tag">Los Colonos de Catán</p>
-                    
-                    <div class="game-details">
-                        <div class="detail-item">📅 7 Jun - 18:30</div>
-                        <div class="detail-item">📍 Game & Grill - Local</div>
-                        <div class="detail-item">👥 8/12 jugadores</div>
-                    </div>
-                </div>
-                <button class="btn-join">Unirme a la partida</button>
-            </article>
+            <div class="games-grid">
 
-            <article class="game-card">
-                <div class="card-content">
-                    <h3>Magic: The Gathering Commander</h3>
-                    <p class="game-tag">Magic MTG</p>
-                    
-                    <div class="game-details">
-                        <div class="detail-item">📅 10 Jun - 20:00</div>
-                        <div class="detail-item">📍 Game & Grill - Local</div>
-                        <div class="detail-item">👥 6/8 jugadores</div>
-                    </div>
-                </div>
-                <button class="btn-join">Unirme a la partida</button>
-            </article>
+                <article class="game-card card-create-new">
+                    <a href="/partidas/crear" class="create-new-link">
+                        <span class="create-icon">+</span>
+                        <p>Crear nueva partida</p>
+                    </a>
+                </article>
 
-            <article class="game-card">
+            </div>
+
+            <article class="game-card" th:each="partida : ${listaPartidas}">
                 <div class="card-content">
-                    <h3>Mesa libre: Juegos variados</h3>
-                    <p class="game-tag">Varios juegos disponibles</p>
-                    
+                    <h3 th:text="${partida.titulo}">Título de la Partida</h3>
+                    <p class="game-tag" th:text="${partida.juego}">Nombre del Juego</p>
+
                     <div class="game-details">
-                        <div class="detail-item">📅 12 Jun - 17:00</div>
-                        <div class="detail-item">📍 Game & Grill - Local</div>
-                        <div class="detail-item">👥 3/10 jugadores</div>
+                        <div class="detail-item" th:text="'📅 ' + ${partida.fecha}">📅 Fecha</div>
+                        <div class="detail-item" th:text="'📍 ' + ${partida.lugar}">📍 Lugar</div>
+                        <div class="detail-item"
+                            th:text="'👥 ' + ${partida.jugadoresApuntados} + '/' + ${partida.jugadoresMax} + ' jugadores'">
+                            👥 Plazas</div>
                     </div>
                 </div>
                 <button class="btn-join">Unirme a la partida</button>
@@ -88,4 +61,5 @@
     </main>
 
 </body>
+
 </html>

@@ -136,3 +136,44 @@ body {
         padding: 15px 20px;
     }
 }
+
+/* --- ESTILO ESPECIAL PARA LA TARJETA DE CREACIÓN (SIN IMPORTANT) --- */
+
+/* Al combinar las dos clases juntas (.game-card.card-create-new), 
+   le decimos al navegador que esta regla es más importante que .game-card a secas */
+.game-card.card-create-new {
+    background-color: #fffaf8; 
+    border: 2px dashed #ff6b35;
+    
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    margin: 0; 
+    padding: 0;
+    
+    display: flex;
+    box-shadow: none;
+}
+
+/* Lo mismo aquí, especificamos que es el enlace que está DENTRO de la tarjeta de creación */
+.card-create-new .create-new-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #ff6b35;
+    font-weight: bold;
+    font-size: 1.1rem;
+    
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 40px 20px;
+}
+
+.card-create-new .create-icon {
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: 10px;
+}
