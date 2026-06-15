@@ -1,10 +1,9 @@
-<!--http://localhost:8080/login-->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio Sesión - Game & Grill</title>
+    <title>Registro - Game & Grill</title>
 
     <link rel="stylesheet" href="css/register.css">
 
@@ -17,26 +16,32 @@
 
         <img src="img/logo.png" alt="Game & Grill Logo" class="logo">
 
-        <h1> Bienvenido de vuelta</h1>
+        <h1>Únete a Game & Grill</h1>
 
         <p class="subtitle">
-            Juega, come y conecta con jugadores
+            Crea tu cuenta y empieza a jugar
         </p>
 
-        <form action="http://localhost:8080/login" method="post">
+        <form action="/registro" method="post">
 
             <label>Nombre</label>
             <input type="text" name="usuario" placeholder="Tu nombre" required>
+            <label>Email</label>
+            <input type="email" name="email" placeholder="tu@email.com" required>
             <label>Contraseña</label>
             <input type="password" name="password" placeholder="••••••••" required>
+            <label>Edad</label>
+            <input type="number" name="edad" placeholder="Edad">
+            <label>Juegos favoritos</label>
+            <input type="text" name="juegos" placeholder="Ej: D&D, Pokemon, Magic...">
             <button type="submit">
-                Iniciar Sesion
+                Registrarse
             </button>
 
         </form>
 
-        <a href="register.html" class="link">
-            ¿No tienes cuenta? Registrate
+        <a href="index.html" class="link">
+            ¿Ya tienes cuenta? Inicia sesión
         </a>
 
     </div>

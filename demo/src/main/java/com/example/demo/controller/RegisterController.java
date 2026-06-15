@@ -1,16 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Usuario;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
-public class UsuarioController {
-
+@RestController
+public class RegisterController {
+ 
     private List<Usuario> usuarios = new ArrayList<>();
 
     @PostMapping("/registro")
@@ -24,7 +22,7 @@ public class UsuarioController {
         Usuario nuevo = new Usuario(usuario, email, password, edad);
         usuarios.add(nuevo);
 
-        return "redirect:/index.html";
+        return "Usuario creado: " + usuario;
     }
 
     @PostMapping("/login")
@@ -41,8 +39,7 @@ public String login(
         }
     }
 
-    return "redirect:/index.html?error=true";
+    return "redirect:/login.html?error=true";
 }
-
+    
 }
-
