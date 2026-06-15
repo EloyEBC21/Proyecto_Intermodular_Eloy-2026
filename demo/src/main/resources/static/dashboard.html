@@ -1,14 +1,91 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game & Grill - Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
 
-    <h1>Dashboard de Game & Grill</h1>
+    <header class="navbar">
+        <div class="logo-container">
+            <div class="logo-placeholder">GG</div>
+        </div>
+        <nav class="nav-buttons">
+            <button class="btn-nav btn-orange">Partidas</button>
+            <button class="btn-nav btn-dark">Menú</button>
+            <button class="btn-nav btn-dark">Perfil</button>
+        </nav>
+    </header>
 
-    <p>Has iniciado sesión correctamente.</p>
+    <main class="dashboard-container">
+        
+        <section class="section-header">
+            <h2>Próximas partidas</h2>
+            <p>Únete a una mesa y conoce jugadores</p>
+        </section>
+
+        <div class="games-grid">
+            
+            <article class="game-card">
+                <div class="card-content">
+                    <h3>Noche de D&D: La Mina Perdida</h3>
+                    <p class="game-tag">Dungeons & Dragons 5e</p>
+                    
+                    <div class="game-details">
+                        <div class="detail-item">📅 5 Jun - 19:00</div>
+                        <div class="detail-item">📍 Game & Grill - Local</div>
+                        <div class="detail-item">👥 4/6 jugadores</div>
+                    </div>
+                </div>
+                <button class="btn-join">Unirme a la partida</button>
+            </article>
+
+            <article class="game-card">
+                <div class="card-content">
+                    <h3>Torneo Catan</h3>
+                    <p class="game-tag">Los Colonos de Catán</p>
+                    
+                    <div class="game-details">
+                        <div class="detail-item">📅 7 Jun - 18:30</div>
+                        <div class="detail-item">📍 Game & Grill - Local</div>
+                        <div class="detail-item">👥 8/12 jugadores</div>
+                    </div>
+                </div>
+                <button class="btn-join">Unirme a la partida</button>
+            </article>
+
+            <article class="game-card">
+                <div class="card-content">
+                    <h3>Magic: The Gathering Commander</h3>
+                    <p class="game-tag">Magic MTG</p>
+                    
+                    <div class="game-details">
+                        <div class="detail-item">📅 10 Jun - 20:00</div>
+                        <div class="detail-item">📍 Game & Grill - Local</div>
+                        <div class="detail-item">👥 6/8 jugadores</div>
+                    </div>
+                </div>
+                <button class="btn-join">Unirme a la partida</button>
+            </article>
+
+            <article class="game-card">
+                <div class="card-content">
+                    <h3>Mesa libre: Juegos variados</h3>
+                    <p class="game-tag">Varios juegos disponibles</p>
+                    
+                    <div class="game-details">
+                        <div class="detail-item">📅 12 Jun - 17:00</div>
+                        <div class="detail-item">📍 Game & Grill - Local</div>
+                        <div class="detail-item">👥 3/10 jugadores</div>
+                    </div>
+                </div>
+                <button class="btn-join">Unirme a la partida</button>
+            </article>
+
+        </div>
+    </main>
 
 </body>
 </html>
