@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Partida</title>
+    <link rel="stylesheet" th:href="@{/css/formPartida.css}">
+</head>
+
+<body>
+
+    <h1>Crear nueva partida</h1>
+
+    <form th:action="@{/partidas/crear}" th:object="${partida}" method="post">
+
+    <label>Título:</label>
+    <input type="text" th:field="*{titulo}" required>
+
+    <label>Juego:</label>
+    <input type="text" th:field="*{juego}" required>
+
+    <label>Fecha:</label>
+    <input type="date" th:field="*{fecha}" required>
+
+    <label>Lugar:</label>
+    <input type="text" th:field="*{lugar}" required>
+
+    <label>Jugadores apuntados:</label>
+    <input type="number" th:field="*{jugadoresApuntados}" min="0" required>
+
+    <label>Jugadores máximos:</label>
+    <input type="number" th:field="*{jugadoresMax}" min="1" required>
+
+    <button type="submit">➕ Crear partida</button>
+
+</form>
+
+</body>
+
+</html>
