@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Game & Grill</title>
 
-    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" th:href="@{/CSS/register.css}">
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
@@ -40,7 +40,7 @@
 
         </form>
 
-        <a href="index.html" class="link">
+        <a th:href="@{/}" class="link">
             ¿Ya tienes cuenta? Inicia sesión
         </a>
 

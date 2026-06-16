@@ -1,39 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <title>Crear Partida</title>
-    <link rel="stylesheet" th:href="@{/css/formPartida.css}">
+    <title>Create Match</title>
+    <link rel="stylesheet" href="css/formPartida.css" th:href="@{/css/formPartida.css}">
 </head>
 
-<body>
+<body class="form-body">
 
-    <h1>Crear nueva partida</h1>
+    <main class="form-container">
+        <h2>Create new match</h2>
 
-    <form th:action="@{/partidas/crear}" th:object="${partida}" method="post">
+        <form th:action="@{/partidas/crear}" th:object="${partida}" method="post">
 
-    <label>Título:</label>
-    <input type="text" th:field="*{titulo}" required>
+            <div class="form-group">
+                <label>Title:</label>
+                <input type="text" th:field="*{titulo}" required>
+            </div>
 
-    <label>Juego:</label>
-    <input type="text" th:field="*{juego}" required>
+            <div class="form-group">
+                <label>Game:</label>
+                <input type="text" th:field="*{juego}" required>
+            </div>
 
-    <label>Fecha:</label>
-    <input type="date" th:field="*{fecha}" required>
+            <div class="form-group">
+                <label>Date:</label>
+                <input type="date" th:field="*{fecha}" required>
+            </div>
 
-    <label>Lugar:</label>
-    <input type="text" th:field="*{lugar}" required>
+            <div class="form-group">
+                <label>Location:</label>
+                <input type="text" th:field="*{lugar}" required>
+            </div>
 
-    <label>Jugadores apuntados:</label>
-    <input type="number" th:field="*{jugadoresApuntados}" min="0" required>
+            <div class="form-group">
+                <label>Joined players:</label>
+                <input type="number" th:field="*{jugadoresApuntados}" min="0" max="999" required>
+            </div>
 
-    <label>Jugadores máximos:</label>
-    <input type="number" th:field="*{jugadoresMax}" min="1" required>
+            <div class="form-group">
+                <label>Max players:</label>
+                <input type="number" th:field="*{jugadoresMax}" min="1" max="1000" required>
+            </div>
+            </div>
 
-    <button type="submit">➕ Crear partida</button>
+            <button type="submit" class="btn-submit">➕ Create match</button>
 
-</form>
+        </form>
+    </main>
 
 </body>
 

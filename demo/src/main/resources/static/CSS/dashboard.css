@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* Estilos Generales de la página */
 body {
     margin: 0;
@@ -137,43 +139,62 @@ body {
     }
 }
 
-/* --- ESTILO ESPECIAL PARA LA TARJETA DE CREACIÓN (SIN IMPORTANT) --- */
+/* --- ESTILO DE LA TARJETA DE CREACIÓN ORIGINAL --- */
 
-/* Al combinar las dos clases juntas (.game-card.card-create-new), 
-   le decimos al navegador que esta regla es más importante que .game-card a secas */
-.game-card.card-create-new {
-    background-color: #fffaf8; 
+/* Estilo para el contenedor con el borde punteado naranja */
+article.game-card.card-create-new {
+    background-color: #fffaf8;
     border: 2px dashed #ff6b35;
-    
-    width: 100%;
-    height: 100%;
-    min-height: 280px;
-    margin: 0; 
-    padding: 0;
-    
-    display: flex;
     box-shadow: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    min-height: 280px;
+    height: 100%;
+    
+    /* Convertimos la tarjeta en flexbox para que obligue a su hijo (el enlace) a estirarse */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
 }
 
-/* Lo mismo aquí, especificamos que es el enlace que está DENTRO de la tarjeta de creación */
-.card-create-new .create-new-link {
+/* Estilo exclusivo para el enlace interior que envuelve todo */
+article.game-card.card-create-new > a {
+    /* Forzamos a que se comporte como un bloque flexible y ocupe el 100% de la tarjeta */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
+    /* Centrado de textos e hijos */
+    text-align: center;
     text-decoration: none;
     color: #ff6b35;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     
+    /* Ocupa todo el espacio interno de la caja punteada */
     width: 100%;
     height: 100%;
+    flex-grow: 1;
     box-sizing: border-box;
     padding: 40px 20px;
 }
 
-.card-create-new .create-icon {
-    font-size: 4rem;
+/* Estilo para el gran signo + */
+article.game-card.card-create-new > a span.create-icon {
+    font-size: 4.5rem;
     line-height: 1;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    display: block;
+    color: #ff6b35;
+}
+
+/* Estilo para el texto inferior 'Crear nueva partida' */
+article.game-card.card-create-new > a p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #ff6b35;
 }

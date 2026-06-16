@@ -1,12 +1,12 @@
 <!--http://localhost:8080/login-->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio Sesión - Game & Grill</title>
 
-    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" th:href="@{/css/css.css}">
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
@@ -15,7 +15,7 @@
 
     <div class="container">
 
-        <img src="img/logo.png" alt="Game & Grill Logo" class="logo">
+        <img src="@{/img/logo.png}" alt="Game & Grill Logo" class="logo">
 
         <h1> Bienvenido de vuelta</h1>
 
@@ -35,7 +35,7 @@
 
         </form>
 
-        <a href="register.html" class="link">
+        <a th:href="@{/register}" class="link">
             ¿No tienes cuenta? Registrate
         </a>
 

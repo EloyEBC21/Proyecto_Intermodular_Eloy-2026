@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game & Grill - Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" th:href="@{/CSS/dashboard.css}">
 </head>
 
 <body>
@@ -33,7 +33,7 @@
             <div class="games-grid">
 
                 <article class="game-card card-create-new">
-                    <a href="/partidas/crear" class="create-new-link">
+                    <a th:href="@{/partidas/crear}">
                         <span class="create-icon">+</span>
                         <p>Crear nueva partida</p>
                     </a>
