@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Game & Grill</title>
 
-    <link rel="stylesheet" th:href="@{/CSS/register.css}">
-
+    <link rel="stylesheet" th:href="@{/css/register.css}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 
@@ -14,7 +13,7 @@
 
     <div class="container">
 
-        <img src="img/logo.png" alt="Game & Grill Logo" class="logo">
+        <img th:src="@{/img/logo.png}" alt="Game & Grill Logo" class="logo">
 
         <h1>Únete a Game & Grill</h1>
 
@@ -22,18 +21,23 @@
             Crea tu cuenta y empieza a jugar
         </p>
 
-        <form action="/registro" method="post">
+        <form th:action="@{/registro}" method="post">
 
             <label>Nombre</label>
             <input type="text" name="usuario" placeholder="Tu nombre" required>
+            
             <label>Email</label>
             <input type="email" name="email" placeholder="tu@email.com" required>
+            
             <label>Contraseña</label>
             <input type="password" name="password" placeholder="••••••••" required>
+            
             <label>Edad</label>
             <input type="number" name="edad" placeholder="Edad">
+            
             <label>Juegos favoritos</label>
             <input type="text" name="juegos" placeholder="Ej: D&D, Pokemon, Magic...">
+            
             <button type="submit">
                 Registrarse
             </button>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,27 +18,38 @@ public class UsuarioController {
 
     private List<Usuario> usuarios = new ArrayList<>();
 
-    /*
-     * NUEVA RUTA BASE: Atiende la petición de la raíz para servir el index
-     * correctamente
-     */
+    /* NUEVA RUTA BASE: Atiende la petición de la raíz para servir el index correctamente */
     @GetMapping("/")
     public String mostrarIndex() {
         return "index";
     }
 
-    /*
-     * NUEVA RUTA REGISTER: Atiende la petición para abrir la pantalla de registro
-     * si alguien navega hacia ella
-     */
+    /* NUEVA RUTA REGISTER: Atiende la petición para abrir la pantalla de registro */
     @GetMapping("/register")
     public String mostrarRegister() {
         return "register";
     }
 
-    /* * EL MÉTODO mostrarDashboard QUE ESTABA AQUÍ HA SIDO ELIMINADO 
-     * Ahora su único dueño es PartidaController.java para evitar duplicados.
-     */
+    /* 📍 NUEVA RUTA: Muestra el perfil del usuario que está navegando */
+    @GetMapping("/perfil")
+    public String verMiPerfil(Model modelo) {
+        /* Si la lista no está vacía, pasamos el primer usuario registrado como simulación */
+        if (!usuarios.isEmpty()) {
+            modelo.addAttribute("usuarioLogueado", usuarios.get(0));
+        } else {
+            /* Si no hay nadie registrado aún, mandamos un usuario ficticio para que la página no falle */
+            modelo.addAttribute("usuarioLogueado", new Usuario("Invitado", "invitado@mail.com", "1234", 18));
+        }
+        return "perfil";
+    }
+
+    /* 📍 NUEVA RUTA: Muestra el explorador con la lista de todos los usuarios registrados */
+    @GetMapping("/usuarios")
+    public String explorarPerfiles(Model modelo) {
+        /* Enviamos la lista completa de usuarios al HTML */
+        modelo.addAttribute("listaUsuarios", usuarios);
+        return "explorar-usuarios";
+    }
 
     @PostMapping("/registro")
     public String registrar(
@@ -49,10 +61,6 @@ public class UsuarioController {
         Usuario nuevo = new Usuario(usuario, email, password, edad);
         usuarios.add(nuevo);
 
-        /*
-         * LÍNEA CAMBIADA: Obligamos al navegador a viajar de vuelta a la URL raíz
-         * limpiamente
-         */
         return "redirect:/";
     }
 
@@ -62,19 +70,11 @@ public class UsuarioController {
             @RequestParam String password) {
 
         for (Usuario u : usuarios) {
-            if (u.getUsuario().equals(usuario) &&
-                    u.getPassword().equals(password)) {
-
-                /*
-                 * LÍNEA CAMBIADA: Quitamos el .html para que invoque al
-                 * método @GetMapping("/dashboard") del controlador de partidas
-                 */
+            if (u.getUsuario().equals(usuario) && u.getPassword().equals(password)) {
                 return "redirect:/dashboard";
             }
         }
 
-        /* LÍNEA CAMBIADA: Quitamos el .html y mandamos el error a la raíz */
         return "redirect:/?error=true";
     }
-
 }

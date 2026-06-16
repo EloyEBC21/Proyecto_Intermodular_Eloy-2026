@@ -3,60 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game & Grill - Dashboard</title>
-    <link rel="stylesheet" th:href="@{/CSS/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <div th:replace="~{navbar :: navbar-styles}"></div>
 </head>
 
 <body>
 
-    <header class="navbar">
-        <div class="logo-container">
-            <div class="logo-placeholder">GG</div>
-        </div>
-        <nav class="nav-buttons">
-            <button class="btn-nav btn-orange">Partidas</button>
-            <button class="btn-nav btn-dark">Menú</button>
-            <button class="btn-nav btn-dark">Perfil</button>
-        </nav>
-    </header>
+    <div th:replace="~{navbar :: menu-navegacion}"></div>
 
     <main class="dashboard-container">
-
-        <section class="section-header">
-            <h2>Próximas partidas</h2>
-            <p>Únete a una mesa y conoce jugadores</p>
-        </section>
+        <div class="section-header">
+            <h2 th:text="#{dashboard.matches.available}">Available Matches</h2>
+            <p th:text="#{dashboard.matches.description}">Join an active table or build your own custom event</p>
+        </div>
 
         <div class="games-grid">
-
-            <div class="games-grid">
-
-                <article class="game-card card-create-new">
-                    <a th:href="@{/partidas/crear}">
-                        <span class="create-icon">+</span>
-                        <p>Crear nueva partida</p>
-                    </a>
-                </article>
-
-            </div>
-
-            <article class="game-card" th:each="partida : ${listaPartidas}">
-                <div class="card-content">
-                    <h3 th:text="${partida.titulo}">Título de la Partida</h3>
-                    <p class="game-tag" th:text="${partida.juego}">Nombre del Juego</p>
-
-                    <div class="game-details">
-                        <div class="detail-item" th:text="'📅 ' + ${partida.fecha}">📅 Fecha</div>
-                        <div class="detail-item" th:text="'📍 ' + ${partida.lugar}">📍 Lugar</div>
-                        <div class="detail-item"
-                            th:text="'👥 ' + ${partida.jugadoresApuntados} + '/' + ${partida.jugadoresMax} + ' jugadores'">
-                            👥 Plazas</div>
-                    </div>
-                </div>
-                <button class="btn-join">Unirme a la partida</button>
+            <article class="game-card card-create-new">
+                <a th:href="@{/partidas/crear}">
+                    <span class="create-icon">+</span>
+                    <p th:text="#{dashboard.create.match}">Create New Match</p>
+                </a>
             </article>
 
+            <div th:each="partida : ${listaPartidas}" class="game-card">
+                <div class="card-content">
+                    <h3 th:text="${partida.titulo}">Match Title</h3>
+                    <p class="game-tag" th:text="${partida.juego}">Game Name</p>
+
+                    <div class="game-details">
+                        <p>
+                            <strong th:text="#{dashboard.date}">Date:</strong>
+                            <span th:text="${#temporals.format(partida.fecha, 'yyyy-MM-dd HH:mm')}">Date</span>
+                        </p>
+                        <p>
+                            <strong th:text="#{dashboard.location}">Location:</strong>
+                            <span th:text="${partida.lugar}">Location</span>
+                        </p>
+                        <p>
+                            <strong th:text="#{dashboard.players}">Players:</strong>
+                            <span th:text="${partida.jugadoresApuntados}">0</span> /
+                            <span th:text="${partida.jugadoresMax}">10</span>
+                        </p>
+                    </div>
+                </div>
+                <a href="#" class="btn-join" style="text-decoration: none;" th:text="#{dashboard.chat}">Match Chat</a>
+            </div>
         </div>
     </main>
 

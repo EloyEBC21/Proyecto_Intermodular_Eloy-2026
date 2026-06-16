@@ -3,53 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Create Match</title>
-    <link rel="stylesheet" href="css/formPartida.css" th:href="@{/css/formPartida.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{form.page.title}">Crear Partida - Game & Grill</title>
+    <link rel="stylesheet" th:href="@{/css/formPartida.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar-styles.css}">
 </head>
 
 <body class="form-body">
 
-    <main class="form-container">
-        <h2>Create new match</h2>
+    <div th:replace="~{navbar :: menu-navegacion}"></div>
 
-        <form th:action="@{/partidas/crear}" th:object="${partida}" method="post">
+    <div class="form-container">
+        <h2 th:text="#{form.title}">Crear Nueva Partida</h2>
+        <p th:text="#{form.subtitle}" style="color: #666; margin-bottom: 25px; font-size: 0.95rem;">Organiza una mesa
+        </p>
 
+        <form th:action="@{/partidas/crear}" method="post">
             <div class="form-group">
-                <label>Title:</label>
-                <input type="text" th:field="*{titulo}" required>
+                <label th:text="#{form.label.name}">Nombre</label>
+                <input type="text" id="titulo" name="titulo" th:placeholder="#{form.placeholder.name}" required>
             </div>
-
             <div class="form-group">
-                <label>Game:</label>
-                <input type="text" th:field="*{juego}" required>
+                <label th:text="#{form.label.game}">Juego</label>
+                <input type="text" id="juego" name="juego" th:placeholder="#{form.placeholder.game}" required>
             </div>
-
             <div class="form-group">
-                <label>Date:</label>
-                <input type="date" th:field="*{fecha}" required>
+                <label th:text="#{form.label.maxPlayers}">Jugadores</label>
+                <input type="number" id="jugadoresMax" name="jugadoresMax" min="1"
+                    th:placeholder="#{form.placeholder.players}" required>
             </div>
-
             <div class="form-group">
-                <label>Location:</label>
-                <input type="text" th:field="*{lugar}" required>
+                <label th:text="#{form.label.date}">Fecha</label>
+                <input type="datetime-local" id="fecha" name="fecha" required>
             </div>
-
             <div class="form-group">
-                <label>Joined players:</label>
-                <input type="number" th:field="*{jugadoresApuntados}" min="0" max="999" required>
+                <label th:text="#{form.label.location}">Lugar</label>
+                <input type="text" id="lugar" name="lugar" th:placeholder="#{form.placeholder.location}" required>
             </div>
-
-            <div class="form-group">
-                <label>Max players:</label>
-                <input type="number" th:field="*{jugadoresMax}" min="1" max="1000" required>
-            </div>
-            </div>
-
-            <button type="submit" class="btn-submit">➕ Create match</button>
-
+            <button type="submit" class="btn-submit" th:text="#{form.button.submit}">Crear Partida</button>
         </form>
-    </main>
-
+    </div>
 </body>
 
 </html>

@@ -1,47 +1,65 @@
-/* Si el usuario aclara que el mensaje es en Java, los nombres de variables y comentarios deben estar en español. */
-
 package com.example.demo.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import com.example.demo.model.Partida;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class PartidaController {
 
-    /* Pequeña base de datos temporal en memoria para guardar tus eventos */
+    // Base de datos temporal en memoria para almacenar las partidas del negocio
     private final List<Partida> listaPartidasGlobal = new ArrayList<>();
 
-    /* El constructor añade los 4 casos de prueba iniciales */
+    // El constructor inicializa los cuatro registros de simulación con el nuevo
+    // formato horario
     public PartidaController() {
-        listaPartidasGlobal.add(new Partida("Noche de D&D: La Mina Perdida", "Dungeons & Dragons 5e", LocalDate.parse("2026-06-05"), "Game & Grill - Local", 4, 6));
-        listaPartidasGlobal.add(new Partida("Torneo Catan", "Los Colonos de Catán", LocalDate.parse("2026-06-07"), "Game & Grill - Local", 8, 12));
-        listaPartidasGlobal.add(new Partida("Magic: The Gathering Commander", "Magic MTG", LocalDate.parse("2026-06-10"), "Game & Grill - Local", 6, 8));
-        listaPartidasGlobal.add(new Partida("Mesa libre: Juegos variados", "Varios juegos disponibles", LocalDate.parse("2026-06-12"), "Game & Grill - Local", 3, 10));
+        listaPartidasGlobal.add(new Partida("Noche de D&D: La Mina Perdida", "Dungeons & Dragons 5e",
+                LocalDateTime.of(2026, 6, 5, 18, 30), "Game & Grill - Local", 4, 6));
+
+        listaPartidasGlobal.add(new Partida("Torneo Catan", "Los Colonos de Catán",
+                LocalDateTime.of(2026, 6, 7, 17, 0), "Game & Grill - Local", 8, 12));
+
+        listaPartidasGlobal.add(new Partida("Magic: The Gathering Commander", "Magic MTG",
+                LocalDateTime.of(2026, 6, 10, 19, 15), "Game & Grill - Local", 6, 8));
+
+        listaPartidasGlobal.add(new Partida("Mesa libre: Juegos variados", "Varios juegos disponibles",
+                LocalDateTime.of(2026, 6, 12, 20, 0), "Game & Grill - Local", 3, 10));
     }
 
-    /* Único método encargado de gestionar la pantalla del Dashboard */
+    // Procesa la solicitud GET para renderizar la lista completa de partidas en la
+    // interfaz principal
     @GetMapping("/dashboard")
     public String mostrarDashboard(Model modelo) {
         modelo.addAttribute("listaPartidas", listaPartidasGlobal);
         return "dashboard";
     }
 
-    /* Método encargado de preparar y pintar el formulario */
+    @GetMapping("/formulario-partida")
+    public String mostrarFormulario(HttpServletRequest request, Model model) {
+        model.addAttribute("currentUri", request.getRequestURI());
+        return "formulario-partida";
+    }
+
+    // Prepara el entorno enviando una instancia limpia del modelo a la vista del
+    // formulario
     @GetMapping("/partidas/crear")
     public String mostrarFormulario(Model modelo) {
         modelo.addAttribute("partida", new Partida());
         return "formulario-partida";
     }
 
-    /* Método encargado de procesar el formulario sin errores de desbordamiento */
+    // Captura los datos enviados desde el formulario HTML y añade la nueva partida
+    // a la lista global
     @PostMapping("/partidas/crear")
     public String guardarPartida(@ModelAttribute Partida partidaRecibida) {
         listaPartidasGlobal.add(partidaRecibida);

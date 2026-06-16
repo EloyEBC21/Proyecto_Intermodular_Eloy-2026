@@ -1,19 +1,20 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.springframework.cglib.core.Local;
+/* Simplemente he borrado una libreria que no se usaba pensando que "LocalDateTime" necesitaba la libreria que he borrado */
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Partida {
-
-    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +22,29 @@ public class Partida {
 
     private String titulo;
     private String juego;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate fecha;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime fecha;
     private String lugar;
     private int jugadoresApuntados;
     private int jugadoresMax;
 
-    
+    @Transient
+    private List<Mensaje> chat = new ArrayList<>();
+
+    /* Y sus correspondientes getter y setter */
+    public List<Mensaje> getChat() {
+        return chat;
+    }
+
+    public void setChat(List<Mensaje> chat) {
+        this.chat = chat;
+    }
 
     // Constructor vacío (OBLIGATORIO para JPA)
     public Partida() {
     }
 
-    public Partida(String titulo, String juego, LocalDate fecha, String lugar,
+    public Partida(String titulo, String juego, LocalDateTime fecha, String lugar,
             int jugadoresApuntados, int jugadoresMax) {
         this.titulo = titulo;
         this.juego = juego;
@@ -64,11 +75,11 @@ public class Partida {
         this.juego = juego;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
