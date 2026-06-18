@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <h1>Lista de Usuarios</h1>
+    
+    <ul>
+        <li th:each="u : ${listaUsuarios}">
+            <span th:text="${u.usuario}">Nombre</span> - 
+            <span th:text="${u.email}">Email</span>
+        </li>
+    </ul>
+    
+    <p th:if="${#lists.isEmpty(listaUsuarios)}">No hay usuarios registrados.</p>
+</body>
+</html>

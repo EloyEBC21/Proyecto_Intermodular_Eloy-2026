@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <title>Chat de Partida</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2 th:text="${partida.titulo}">Título Partida</h2>
+        
+        <div class="chat-box">
+            <div th:each="msg : ${mensajes}" class="chat-message">
+                <strong th:text="${msg.emisor}"></strong>: 
+                <span th:text="${msg.contenido}"></span>
+            </div>
+        </div>
+
+        <form th:action="@{/partidas/{id}/chat/enviar(id=${partida.id})}" method="post" style="display: flex; gap: 10px;">
+            <input type="text" name="emisor" placeholder="Tu nombre" required style="width: 20%;">
+            <input type="text" name="contenido" placeholder="Mensaje..." required style="flex-grow: 1;">
+            <button type="submit" class="btn-orange">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>

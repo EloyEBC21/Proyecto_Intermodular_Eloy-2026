@@ -1,12 +1,27 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Usuario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // JPA necesita un ID para identificar al usuario
+    
     private String usuario;
     private String email;
     private String password;
     private int edad;
 
+    // 1. Constructor vacío (Obligatorio para JPA)
+    public Usuario() {
+    }
+
+    // 2. Constructor con parámetros
     public Usuario(String usuario, String email, String password, int edad) {
         this.usuario = usuario;
         this.email = email;
@@ -14,8 +29,14 @@ public class Usuario {
         this.edad = edad;
     }
 
+    // Getters y Setters
+    public Long getId() { return id; }
     public String getUsuario() { return usuario; }
+    public void setUsuario(String usuario) { this.usuario = usuario; }
     public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
     public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
     public int getEdad() { return edad; }
+    public void setEdad(int edad) { this.edad = edad; }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,13 +19,18 @@ public class UsuarioController {
 
     private List<Usuario> usuarios = new ArrayList<>();
 
-    /* NUEVA RUTA BASE: Atiende la petición de la raíz para servir el index correctamente */
+    /*
+     * NUEVA RUTA BASE: Atiende la petición de la raíz para servir el index
+     * correctamente
+     */
     @GetMapping("/")
     public String mostrarIndex() {
         return "index";
     }
 
-    /* NUEVA RUTA REGISTER: Atiende la petición para abrir la pantalla de registro */
+    /*
+     * NUEVA RUTA REGISTER: Atiende la petición para abrir la pantalla de registro
+     */
     @GetMapping("/register")
     public String mostrarRegister() {
         return "register";
@@ -33,22 +39,46 @@ public class UsuarioController {
     /* 📍 NUEVA RUTA: Muestra el perfil del usuario que está navegando */
     @GetMapping("/perfil")
     public String verMiPerfil(Model modelo) {
-        /* Si la lista no está vacía, pasamos el primer usuario registrado como simulación */
+        /*
+         * Si la lista no está vacía, pasamos el primer usuario registrado como
+         * simulación
+         */
         if (!usuarios.isEmpty()) {
             modelo.addAttribute("usuarioLogueado", usuarios.get(0));
         } else {
-            /* Si no hay nadie registrado aún, mandamos un usuario ficticio para que la página no falle */
+            /*
+             * Si no hay nadie registrado aún, mandamos un usuario ficticio para que la
+             * página no falle
+             */
             modelo.addAttribute("usuarioLogueado", new Usuario("Invitado", "invitado@mail.com", "1234", 18));
         }
         return "perfil";
     }
 
-    /* 📍 NUEVA RUTA: Muestra el explorador con la lista de todos los usuarios registrados */
+    /*
+     * 📍 NUEVA RUTA: Muestra el explorador con la lista de todos los usuarios
+     * registrados
+     */
     @GetMapping("/usuarios")
     public String explorarPerfiles(Model modelo) {
-        /* Enviamos la lista completa de usuarios al HTML */
+        System.out.println("DEBUG: Entrando en /usuarios");
         modelo.addAttribute("listaUsuarios", usuarios);
-        return "explorar-usuarios";
+        return "explorar-usuarios"; 
+    }
+
+
+    /* 📍 NUEVA RUTA: Muestra el perfil de un usuario específico usando su ID */
+    @GetMapping("/usuarios/{id}")
+    public String verPerfilUsuario(@PathVariable("id") Long id, Model modelo) {
+        // Aquí buscarías al usuario en la BD.
+        // Como ahora usas una lista en memoria, puedes filtrarla:
+        Usuario usuarioEncontrado = usuarios.stream()
+                .filter(u -> u.getId().equals(id)) // Requiere que Usuario tenga método getId()
+                .findFirst()
+                .orElse(null);
+
+        modelo.addAttribute("usuario", usuarioEncontrado);
+        return "perfil-usuario"; // Debes crear este archivo HTML
     }
 
     @PostMapping("/registro")

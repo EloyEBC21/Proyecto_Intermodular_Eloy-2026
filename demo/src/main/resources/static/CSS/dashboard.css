@@ -191,3 +191,15 @@ body {
     background-color: #ff6b35;
     color: white;
 }
+
+.chat-box {
+    background-color: #ffffff;
+    border: 1px solid #eef0f2;
+    border-radius: 12px;
+    padding: 20px;
+    height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+.chat-message { padding: 10px; border-bottom: 1px solid #f9f9f9; }
+.chat-message strong { color: #ff6b35; }
