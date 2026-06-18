@@ -22,8 +22,12 @@
             <div th:each="u : ${listaUsuarios}" class="user-card">
                 <div class="user-avatar" th:text="${#strings.substring(u.usuario, 0, 1)}">U</div>
                 <h3 th:text="${u.usuario}">Nombre</h3>
+
+                <p style="font-size: 0.8em; color: gray;" th:text="'ID interno: ' + ${u.id}"></p>
+
                 <p th:text="${u.email}">correo@mail.com</p>
-                <a th:href="@{/usuarios/{id}(id=${u.id})}" class="btn-join" th:text="#{button.view.profile}">Ver Perfil</a>
+                <a th:href="@{/usuarios/{id}(id=${u.id})}" class="btn-join" th:text="#{button.view.profile}">Ver
+                    Perfil</a>
             </div>
         </div>
     </main>

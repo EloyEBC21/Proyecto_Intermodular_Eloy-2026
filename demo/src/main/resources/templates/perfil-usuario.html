@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{profile.title}">Perfil</title>
+    <link rel="stylesheet" th:href="@{/css/perfiles-usuarios.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <div th:replace="~{navbar :: navbar-styles}"></div>
+</head>
+
+<body>
+
+    <div th:replace="~{navbar :: menu-navegacion}"></div>
+
+    <main class="dashboard-container">
+        <div class="profile-card">
+
+            <div class="profile-avatar" th:text="${#strings.substring(usuario.usuario, 0, 1)}">U</div>
+
+            <h2 class="profile-name" th:text="${usuario.usuario}">Username</h2>
+            <p class="profile-email" th:text="${usuario.email}">user@mail.com</p>
+
+            <div class="game-details">
+                <p>
+                    <strong th:text="#{profile.age}">Edad:</strong>
+                    <span th:text="${usuario.edad}">18</span>
+                </p>
+                <p>
+                    <strong th:text="#{profile.rank}">Rango:</strong>
+                    <span class="rank-value" th:text="#{profile.rank.value}">Verificado</span>
+                </p>
+                <p>
+                    <strong th:text="#{profile.games}">Juegos favoritos:</strong>
+                    <span th:text="${usuario.juegos != null ? usuario.juegos : 'No ha indicado juegos'}">D&D</span>
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+
+</html>

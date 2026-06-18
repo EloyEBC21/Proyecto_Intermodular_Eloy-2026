@@ -1,10 +1,11 @@
-/* Si el usuario aclara que el mensaje es en Java, los nombres de variables y comentarios deben estar en español. */
-
 package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.servlet.http.HttpSession; // Importante para la sesión
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,74 +18,73 @@ import com.example.demo.model.Usuario;
 @Controller
 public class UsuarioController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
     private List<Usuario> usuarios = new ArrayList<>();
 
-    // Constructor para inicializar datos ficticios
     public UsuarioController() {
-        usuarios.add(new Usuario("Guillermo", "guille@mail.com", "1234", 28));
-        usuarios.add(new Usuario("Ana", "ana@mail.com", "1234", 25));
-        usuarios.add(new Usuario("Carlos", "carlos@mail.com", "1234", 32));
+        // Datos de prueba iniciales
+        Usuario u1 = new Usuario("Guillermo", "guille@mail.com", "1234", 28, "Dungeons & Dragons, Magic: The Gathering");
+        u1.setId(1L);
+        usuarios.add(u1);
+        // ... (resto de usuarios igual)
     }
 
-    /*
-     * NUEVA RUTA BASE: Atiende la petición de la raíz para servir el index
-     * correctamente
-     */
-    @GetMapping("/")
-    public String mostrarIndex() {
-        return "index";
-    }
-
-    /*
-     * NUEVA RUTA REGISTER: Atiende la petición para abrir la pantalla de registro
-     */
-    @GetMapping("/register")
-    public String mostrarRegister() {
-        return "register";
-    }
-
-    /* 📍 NUEVA RUTA: Muestra el perfil del usuario que está navegando */
-    @GetMapping("/perfil")
-    public String verMiPerfil(Model modelo) {
-        /*
-         * Si la lista no está vacía, pasamos el primer usuario registrado como
-         * simulación
-         */
-        if (!usuarios.isEmpty()) {
-            modelo.addAttribute("usuarioLogueado", usuarios.get(0));
-        } else {
-            /*
-             * Si no hay nadie registrado aún, mandamos un usuario ficticio para que la
-             * página no falle
-             */
-            modelo.addAttribute("usuarioLogueado", new Usuario("Invitado", "invitado@mail.com", "1234", 18));
+    // LOGIN: Al loguearse correctamente, guardamos el usuario en la sesión
+    @PostMapping("/login")
+    public String login(@RequestParam String usuario, @RequestParam String password, HttpSession sesion) {
+        for (Usuario u : usuarios) {
+            if (u.getUsuario().equals(usuario) && u.getPassword().equals(password)) {
+                sesion.setAttribute("usuarioLogueado", u); // Guardamos el usuario en la sesión
+                return "redirect:/dashboard";
+            }
         }
+        return "redirect:/?error=true";
+    }
+
+    // PERFIL: Solo permite entrar si hay un usuario en la sesión
+    @GetMapping("/perfil")
+    public String verMiPerfil(HttpSession sesion, Model modelo) {
+        Usuario user = (Usuario) sesion.getAttribute("usuarioLogueado");
+        if (user == null) {
+            return "redirect:/"; // Si no está logueado, lo mandamos al inicio
+        }
+        modelo.addAttribute("usuarioLogueado", user);
         return "perfil";
     }
 
-    /*
-     * 📍 NUEVA RUTA: Muestra el explorador con la lista de todos los usuarios
-     * registrados
-     */
+    // EXPLORAR: Protegido
     @GetMapping("/usuarios")
-    public String explorarPerfiles(Model modelo) {
-        System.out.println("DEBUG: Entrando en /usuarios");
+    public String explorarPerfiles(HttpSession sesion, Model modelo) {
+        if (sesion.getAttribute("usuarioLogueado") == null) {
+            return "redirect:/";
+        }
         modelo.addAttribute("listaUsuarios", usuarios);
         return "explorar-usuarios";
     }
 
-    /* 📍 NUEVA RUTA: Muestra el perfil de un usuario específico usando su ID */
+    // PERFIL INDIVIDUAL: Protegido
     @GetMapping("/usuarios/{id}")
-    public String verPerfilUsuario(@PathVariable("id") Long id, Model modelo) {
-        // Aquí buscarías al usuario en la BD.
-        // Como ahora usas una lista en memoria, puedes filtrarla:
+    public String verPerfilUsuario(@PathVariable("id") Long id, HttpSession sesion, Model modelo) {
+        if (sesion.getAttribute("usuarioLogueado") == null) {
+            return "redirect:/";
+        }
+
         Usuario usuarioEncontrado = usuarios.stream()
-                .filter(u -> u.getId().equals(id)) // Requiere que Usuario tenga método getId()
+                .filter(u -> u.getId().equals(id))
                 .findFirst()
                 .orElse(null);
 
+        if (usuarioEncontrado == null) {
+            return "redirect:/usuarios";
+        }
+
         modelo.addAttribute("usuario", usuarioEncontrado);
-        return "perfil-usuario"; // Debes crear este archivo HTML
+        return "perfil-usuario";
+    }
+
+    @GetMapping("/register")
+    public String mostrarRegister() {
+        return "register";
     }
 
     @PostMapping("/registro")
@@ -92,25 +92,24 @@ public class UsuarioController {
             @RequestParam String usuario,
             @RequestParam String email,
             @RequestParam String password,
-            @RequestParam int edad) {
+            @RequestParam int edad,
+            @RequestParam(required = false) String juegos) { // Añadimos required=false por si no escriben nada
 
-        Usuario nuevo = new Usuario(usuario, email, password, edad);
+        Usuario nuevo = new Usuario(usuario, email, password, edad, juegos);
+
+        // ¡IMPORTANTE! Debes guardar los juegos en el usuario
+        // Asegúrate de tener el método setJuegos(String juegos) en tu clase Usuario
+        nuevo.setJuegos(juegos);
+
+        // Asignación de ID autoincremental
+        long maxId = usuarios.stream()
+                .mapToLong(Usuario::getId)
+                .max()
+                .orElse(0L);
+        nuevo.setId(maxId + 1);
+
         usuarios.add(nuevo);
 
         return "redirect:/";
-    }
-
-    @PostMapping("/login")
-    public String login(
-            @RequestParam String usuario,
-            @RequestParam String password) {
-
-        for (Usuario u : usuarios) {
-            if (u.getUsuario().equals(usuario) && u.getPassword().equals(password)) {
-                return "redirect:/dashboard";
-            }
-        }
-
-        return "redirect:/?error=true";
     }
 }

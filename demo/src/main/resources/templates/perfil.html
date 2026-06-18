@@ -14,18 +14,28 @@
 
     <main class="dashboard-container" style="display: flex; justify-content: center;">
         <div class="profile-card">
-            
-            <div class="profile-avatar">👤</div>
 
-            <h2 style="margin: 0 0 5px 0; color: #111111;" th:text="${usuarioLogueado.usuario}">Username</h2>
-            <p style="color: #ff6b35; font-weight: bold; margin: 0 0 20px 0;" th:text="${usuarioLogueado.email}">user@mail.com</p>
-            
-            <div class="game-details" style="text-align: left; background-color: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eef0f2;">
-                <p><strong th:text="${param.lang != null && param.lang[0] == 'es'} ? 'Requisito de Edad:' : 'Age Requirement:'">Age Requirement:</strong> <span th:text="${usuarioLogueado.edad} + ' ' + (${param.lang != null && param.lang[0] == 'es'} ? 'años' : 'years old')">18 years old</span></p>
-                <p><strong th:text="${param.lang != null && param.lang[0] == 'es'} ? 'Rango de Cuenta:' : 'Account Rank:'">Account Rank:</strong> <span style="color: #4CAF50; font-weight: bold;" th:text="${param.lang != null && param.lang[0] == 'es'} ? 'Jugador Verificado' : 'Verified Player'">Verified Player</span></p>
+            <div class="game-details">
+                <div class="profile-avatar" th:text="${#strings.substring(usuarioLogueado.usuario, 0, 1)}">U</div>
+
+                <h2 style="margin: 0 0 5px 0; color: #111111;" th:text="${usuarioLogueado.usuario}">Username</h2>
+                <p style="color: #ff6b35; font-weight: bold; margin: 0 0 20px 0;" th:text="${usuarioLogueado.email}">
+                    user@mail.com</p>
+                <p>
+                    <strong th:text="#{profile.age}"></strong>
+                    <span th:text="${usuarioLogueado.edad} + ' ' + #{profile.years}"></span>
+                </p>
+                <p>
+                    <strong th:text="#{profile.rank}"></strong>
+                    <span style="color: #4CAF50; font-weight: bold;" th:text="#{profile.rank.value}"></span>
+                </p>
             </div>
 
-        </div>
+            <p>
+                <strong th:text="#{profile.games}"></strong>
+                <span
+                    th:text="${usuarioLogueado.juegos != null ? usuarioLogueado.juegos : #messages.msg('profile.no.games')}"></span>
+            </p>
     </main>
 
 </body>

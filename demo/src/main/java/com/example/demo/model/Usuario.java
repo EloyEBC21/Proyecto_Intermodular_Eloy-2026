@@ -16,18 +16,22 @@ public class Usuario {
     private String email;
     private String password;
     private int edad;
+    private String juegos;
 
     // 1. Constructor vacío (Obligatorio para JPA)
     public Usuario() {
     }
 
     // 2. Constructor con parámetros
-    public Usuario(String usuario, String email, String password, int edad) {
+    public Usuario(String usuario, String email, String password, int edad, String juegos) {
         this.usuario = usuario;
         this.email = email;
         this.password = password;
         this.edad = edad;
+        this.juegos = juegos;
     }
+
+    public void setId(Long id) { this.id = id; }
 
     // Getters y Setters
     public Long getId() { return id; }
@@ -39,4 +43,6 @@ public class Usuario {
     public void setPassword(String password) { this.password = password; }
     public int getEdad() { return edad; }
     public void setEdad(int edad) { this.edad = edad; }
+    public String getJuegos() { return juegos; }
+    public void setJuegos(String juegos) { this.juegos = juegos; }
 }

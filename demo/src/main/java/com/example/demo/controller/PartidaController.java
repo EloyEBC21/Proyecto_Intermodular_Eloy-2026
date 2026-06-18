@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import jakarta.servlet.http.HttpSession;
 
 import com.example.demo.model.Partida;
 
@@ -39,7 +40,10 @@ public class PartidaController {
     // Procesa la solicitud GET para renderizar la lista completa de partidas en la
     // interfaz principal
     @GetMapping("/dashboard")
-    public String mostrarDashboard(Model modelo) {
+    public String mostrarDashboard(HttpSession sesion, Model modelo) {
+        if (sesion.getAttribute("usuarioLogueado") == null)
+            return "redirect:/";
+
         modelo.addAttribute("listaPartidas", listaPartidasGlobal);
         return "dashboard";
     }
@@ -53,7 +57,9 @@ public class PartidaController {
     // Prepara el entorno enviando una instancia limpia del modelo a la vista del
     // formulario
     @GetMapping("/partidas/crear")
-    public String mostrarFormulario(Model modelo) {
+    public String mostrarFormulario(HttpSession sesion, Model modelo) {
+        if (sesion.getAttribute("usuarioLogueado") == null) return "redirect:/";
+        
         modelo.addAttribute("partida", new Partida());
         return "formulario-partida";
     }
@@ -61,7 +67,9 @@ public class PartidaController {
     // Captura los datos enviados desde el formulario HTML y añade la nueva partida
     // a la lista global
     @PostMapping("/partidas/crear")
-    public String guardarPartida(@ModelAttribute Partida partidaRecibida) {
+    public String guardarPartida(@ModelAttribute Partida partidaRecibida, HttpSession sesion) {
+        if (sesion.getAttribute("usuarioLogueado") == null) return "redirect:/";
+        
         listaPartidasGlobal.add(partidaRecibida);
         return "redirect:/dashboard";
     }

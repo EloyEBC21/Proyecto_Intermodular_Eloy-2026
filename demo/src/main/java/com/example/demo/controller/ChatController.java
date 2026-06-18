@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Mensaje;
 import com.example.demo.model.Partida;
+import com.example.demo.model.Usuario;
 import com.example.demo.repository.MensajeRepository;
 import com.example.demo.repository.PartidaRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ChatController {
@@ -26,33 +29,36 @@ public class ChatController {
     }
 
     @GetMapping("/partidas/{id}/chat")
-    public String mostrarChat(@PathVariable Long id, Model model) {
-        // 1. Cargamos la partida
+    public String mostrarChat(@PathVariable Long id, HttpSession sesion, Model model) {
+        if (sesion.getAttribute("usuarioLogueado") == null)
+            return "redirect:/";
+
         Partida partida = partidaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Partida no encontrada"));
 
-        // 2. Cargamos todos los mensajes de esta partida
         List<Mensaje> mensajes = mensajeRepository.findByPartidaId(id);
-
-        // 3. Pasamos los datos a la vista
         model.addAttribute("partida", partida);
         model.addAttribute("mensajes", mensajes);
-
-        return "chat-partida"; // El nombre del archivo HTML
+        return "chat-partida";
     }
 
     @PostMapping("/partidas/{id}/chat/enviar")
     public String enviarMensaje(@PathVariable Long id,
             @RequestParam String contenido,
-            @RequestParam String emisor) { // Recogemos el emisor del input
+            HttpSession sesion) { // Ya no hace falta el @RequestParam String emisor
+
+        if (sesion.getAttribute("usuarioLogueado") == null)
+            return "redirect:/";
+
+        // Recuperamos el nombre del usuario directamente de la sesión!
+        Usuario usuarioLogueado = (Usuario) sesion.getAttribute("usuarioLogueado");
+        String emisor = usuarioLogueado.getUsuario();
 
         Partida partida = partidaRepository.findById(id).orElseThrow();
-
         Mensaje mensaje = new Mensaje();
         mensaje.setContenido(contenido);
         mensaje.setEmisor(emisor);
         mensaje.setPartida(partida);
-
         mensajeRepository.save(mensaje);
 
         return "redirect:/partidas/" + id + "/chat";
