@@ -19,6 +19,13 @@ public class UsuarioController {
 
     private List<Usuario> usuarios = new ArrayList<>();
 
+    // Constructor para inicializar datos ficticios
+    public UsuarioController() {
+        usuarios.add(new Usuario("Guillermo", "guille@mail.com", "1234", 28));
+        usuarios.add(new Usuario("Ana", "ana@mail.com", "1234", 25));
+        usuarios.add(new Usuario("Carlos", "carlos@mail.com", "1234", 32));
+    }
+
     /*
      * NUEVA RUTA BASE: Atiende la petición de la raíz para servir el index
      * correctamente
@@ -63,9 +70,8 @@ public class UsuarioController {
     public String explorarPerfiles(Model modelo) {
         System.out.println("DEBUG: Entrando en /usuarios");
         modelo.addAttribute("listaUsuarios", usuarios);
-        return "explorar-usuarios"; 
+        return "explorar-usuarios";
     }
-
 
     /* 📍 NUEVA RUTA: Muestra el perfil de un usuario específico usando su ID */
     @GetMapping("/usuarios/{id}")

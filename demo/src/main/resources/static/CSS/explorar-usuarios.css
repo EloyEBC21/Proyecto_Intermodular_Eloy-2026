@@ -1,0 +1,52 @@
+/* Importamos los estilos base que compartes con el dashboard */
+@import 'dashboard.css';
+
+/* --- Estilos específicos para la sección de usuarios --- */
+.users-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* Reutilizamos el estilo de tarjeta pero lo llamamos user-card */
+.user-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eef0f2;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.user-avatar {
+    width: 70px;
+    height: 70px;
+    background-color: #ff6b35;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 auto 15px auto;
+}
+
+.user-card h3 {
+    margin: 0 0 10px 0;
+    color: #111111;
+}
+
+.user-card p {
+    color: #777777;
+    margin-bottom: 20px;
+}

@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Explorar Usuarios | Game & Grill</title>
+    <link rel="stylesheet" th:href="@{/css/explorar-usuarios.css}">
+    <div th:replace="~{navbar :: navbar-styles}"></div>
+</head>
+
 <body>
-    <h1>Lista de Usuarios</h1>
-    
-    <ul>
-        <li th:each="u : ${listaUsuarios}">
-            <span th:text="${u.usuario}">Nombre</span> - 
-            <span th:text="${u.email}">Email</span>
-        </li>
-    </ul>
-    
-    <p th:if="${#lists.isEmpty(listaUsuarios)}">No hay usuarios registrados.</p>
+
+    <div th:replace="~{navbar :: menu-navegacion}"></div>
+
+    <main class="users-container">
+        <div class="section-header">
+            <h2 th:text="#{explore.title}">Comunidad Game & Grill</h2>
+            <p th:text="#{explore.description}">Conecta con otros jugadores de tu zona.</p>
+        </div>
+
+        <div class="users-grid">
+            <div th:each="u : ${listaUsuarios}" class="user-card">
+                <div class="user-avatar" th:text="${#strings.substring(u.usuario, 0, 1)}">U</div>
+                <h3 th:text="${u.usuario}">Nombre</h3>
+                <p th:text="${u.email}">correo@mail.com</p>
+                <a th:href="@{/usuarios/{id}(id=${u.id})}" class="btn-join" th:text="#{button.view.profile}">Ver Perfil</a>
+            </div>
+        </div>
+    </main>
+
 </body>
+
 </html>

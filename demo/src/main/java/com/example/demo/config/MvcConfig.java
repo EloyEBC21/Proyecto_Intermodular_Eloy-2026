@@ -25,6 +25,9 @@ public class MvcConfig implements WebMvcConfigurer {
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
         lci.setParamName("lang");
+        // Esto fuerza a que el interceptor acepte el cambio incluso si el código es
+        // "exótico"
+        lci.setIgnoreInvalidLocale(true);
         return lci;
     }
 
