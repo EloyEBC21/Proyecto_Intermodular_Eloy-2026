@@ -30,18 +30,6 @@ public class Partida {
     private int jugadoresApuntados;
     private int jugadoresMax;
 
-    @Transient
-    private List<Mensaje> chat = new ArrayList<>();
-
-    /* Y sus correspondientes getter y setter */
-    public List<Mensaje> getChat() {
-        return chat;
-    }
-
-    public void setChat(List<Mensaje> chat) {
-        this.chat = chat;
-    }
-
     // Constructor vacío (OBLIGATORIO para JPA)
     public Partida() {
     }
