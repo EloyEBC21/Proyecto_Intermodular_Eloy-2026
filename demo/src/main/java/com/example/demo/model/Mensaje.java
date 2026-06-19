@@ -4,6 +4,7 @@ import jakarta.persistence.*; // IMPORTANTE: Estas son las anotaciones de JPA
 import java.time.LocalDateTime;
 
 @Entity // Indica a Spring que esto es una tabla de BD
+@Table(name = "mensajes") // Nombre de la tabla en la BD
 public class Mensaje {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,10 @@
 package com.example.demo.model; // Ajusta según tu paquete
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "productos") // Nombre de la tabla en la BD
 public class Producto {
     private String nombre;
     private String descripcion;
