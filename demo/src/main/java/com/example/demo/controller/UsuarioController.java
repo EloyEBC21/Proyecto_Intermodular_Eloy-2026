@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.servlet.http.HttpSession; // Importante para la sesión
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Usuario;
 
+import jakarta.servlet.http.HttpSession; // Importante para la sesión
+
 @Controller
 public class UsuarioController {
 
@@ -23,7 +24,8 @@ public class UsuarioController {
 
     public UsuarioController() {
         // Datos de prueba iniciales
-        Usuario u1 = new Usuario("Guillermo", "guille@mail.com", "1234", 28, "Dungeons & Dragons, Magic: The Gathering");
+        Usuario u1 = new Usuario("Guillermo", "guille@mail.com", "1234", 28,
+                "Dungeons & Dragons, Magic: The Gathering");
         u1.setId(1L);
         usuarios.add(u1);
         // ... (resto de usuarios igual)
@@ -85,6 +87,19 @@ public class UsuarioController {
     @GetMapping("/register")
     public String mostrarRegister() {
         return "register";
+    }
+
+    @GetMapping("/menu")
+    public String mostrarMenu(HttpSession session, Model model) {
+        // 1. Protección de seguridad
+        if (session.getAttribute("usuarioLogueado") == null) {
+            return "redirect:/";
+        }
+
+        // 2. Aquí cargarás tus productos más adelante
+        // model.addAttribute("productos", productoService.findAll());
+
+        return "menu"; // Debe ser el nombre del archivo html
     }
 
     @PostMapping("/registro")
