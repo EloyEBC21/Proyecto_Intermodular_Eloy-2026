@@ -94,13 +94,14 @@
             text-decoration: none;
         }
     </style>
+    <th:block th:replace="~{fragments/head :: favicon}"></th:block>
 </head>
 
 <body>
 
     <nav th:fragment="menu-navegacion" class="main-navbar">
         <a th:href="@{/dashboard}" class="nav-brand">
-            <span>Game & Grill</span>
+            <img th:src="@{/images/logo.png}" alt="Logo de la empresa" style="height: 50px; width: auto;">
         </a>
 
         <div class="nav-links">
