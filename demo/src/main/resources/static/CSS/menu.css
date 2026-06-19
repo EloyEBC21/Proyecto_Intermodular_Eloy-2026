@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Contenedor principal de dos columnas */
+.menu-main-container {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* Sección izquierda (lista de productos) */
+.product-list {
+    flex: 2;
+}
+
+/* Sección derecha (carrito fijo) */
+.cart-sidebar {
+    flex: 1;
+    border: 2px solid #ff6b35;
+    padding: 20px;
+    border-radius: 8px;
+    position: sticky;
+    top: 20px;
+    background: #fff;
+}
+
+/* Tarjeta de cada producto */
+.product-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+}
+
+.product-price {
+    color: #ff6b35;
+    font-weight: bold;
+}
+
+/* Botón de añadir */
+.add-button {
+    background-color: #ff6b35;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: #e55a2d;
+}

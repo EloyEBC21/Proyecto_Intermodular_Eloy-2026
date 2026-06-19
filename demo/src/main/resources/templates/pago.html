@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago</title>
+    <div th:replace="~{navbar :: navbar-styles}"></div>
+    <link rel="stylesheet" th:href="@{/css/pago.css}">
+</head>
+
+<body>
+    <div th:replace="~{navbar :: menu-navegacion}"></div>
+
+    <div class="payment-card">
+        <form th:action="@{/procesar-pago}" method="post">
+            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            <h1 th:text="#{payment.title}">Finalizar Pedido</h1>
+            <p th:text="#{payment.subtitle}">Selecciona tu método de pago:</p>
+
+            <div class="payment-methods">
+                <div class="method-option">
+                    <input type="radio" id="card" name="pago" value="card" checked>
+                    <label for="card" th:text="#{payment.method.card}">💳 Tarjeta de Crédito</label>
+                </div>
+                <div class="method-option">
+                    <input type="radio" id="paypal" name="pago" value="paypal">
+                    <label for="paypal" th:text="#{payment.method.paypal}">🅿️ PayPal</label>
+                </div>
+                <div class="method-option">
+                    <input type="radio" id="bizum" name="pago" value="bizum">
+                    <label for="bizum" th:text="#{payment.method.bizum}">📱 Bizum</label>
+                </div>
+            </div>
+
+            <button type="submit" th:text="#{payment.button}">Pagar y volver al Dashboard</button>
+        </form>
+    </div>
+</body>
+
+</html>

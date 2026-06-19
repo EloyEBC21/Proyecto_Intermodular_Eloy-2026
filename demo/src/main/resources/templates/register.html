@@ -22,6 +22,7 @@
         </p>
 
         <form th:action="@{/registro}" method="post">
+            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
             <label>Nombre</label>
             <input type="text" name="usuario" placeholder="Tu nombre" required>

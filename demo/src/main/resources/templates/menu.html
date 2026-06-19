@@ -1,24 +1,64 @@
-<main class="dashboard-container" style="display: flex; gap: 20px; padding: 20px; max-width: 1200px; margin: auto;">
-    
-    <div style="flex: 2;">
-        <h1>Menú</h1>
-        <p>Pide tu comida mientras juegas</p>
+<!DOCTYPE html>
+<html lang="en">
 
-        <h3 style="color: #ff6b35;">Entrantes</h3>
-        <div class="product-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <strong>Nachos Supreme</strong><br>
-                <small>Con queso, guacamole y jalapeños</small><br>
-                <span style="color: #ff6b35; font-weight: bold;">8.50€</span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+    <div th:replace="~{navbar :: navbar-styles}"></div>
+    <link rel="stylesheet" th:href="@{/css/menu.css}">
+</head>
+
+<body>
+    <div th:replace="~{navbar :: menu-navegacion}"></div>
+
+    <main class="menu-main-container">
+
+        <div class="product-list">
+            <h1 th:text="#{menu.title}">Menú</h1>
+
+            <div th:if="${menu != null}">
+                <div th:each="entry : ${menu}">
+                    <h3 th:text="#{menu.category.__${entry.key.toLowerCase()}__}"
+                        style="color: #ff6b35; margin-top: 25px;">Categoría</h3>
+
+                    <div th:each="producto : ${entry.value}" th:if="${producto != null}" class="product-card">
+                        <div>
+                            <strong th:text="#{producto.__${#strings.replace(producto.nombre, ' ', '_').toLowerCase()}__}">Nombre</strong><br>
+                            <small th:text="${producto.descripcion ?: ''}">Descripción</small><br>
+                            <span class="product-price"
+                                th:text="${producto.precio != null} ? ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 2, 'POINT')} + '€' : '0.00€'">
+                                Precio
+                            </span>
+                        </div>
+
+                        <form th:action="@{/menu/agregar}" method="post">
+                            <input type="hidden" name="nombre" th:value="${producto.nombre}" />
+                            <input type="hidden" name="precio" th:value="${producto.precio}" />
+                            <button type="submit" class="add-button" th:text="#{menu.button.add}">Añadir</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <button class="button">Añadir</button>
-        </div>
-        
+
+            <p th:if="${menu == null or menu.isEmpty()}">No hay productos disponibles.</p>
         </div>
 
-    <div style="flex: 1; border: 2px solid #ff6b35; padding: 20px; border-radius: 8px; height: fit-content; position: sticky; top: 20px;">
-        <h3>🛒 Tu pedido</h3>
-        <p>Tu carrito está vacío</p>
-    </div>
+        <div class="cart-sidebar">
+            <h3 th:text="#{menu.cart.title}">🛒 Tu pedido</h3>
 
-</main>
+            <div th:if="${session.carrito != null}">
+                <div th:each="item : ${session.carrito}">
+                    <p th:text="#{producto.__${#strings.replace(item.nombre, ' ', '_').toLowerCase()}__} + ' - ' + ${item.precio} + '€'"></p>
+                </div>
+                <hr>
+                <a th:href="@{/pago}" class="add-button" th:text="#{menu.button.pay}">Ir a pagar</a>
+            </div>
+
+            <p th:if="${session.carrito == null}" th:text="#{menu.cart.empty}">Tu carrito está vacío</p>
+        </div>
+
+    </main>
+</body>
+
+</html>
