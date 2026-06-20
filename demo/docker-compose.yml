@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    container_name: mi-app-spring
+    network_mode: "host"
+    restart: always
+    volumes:
+      - ./src/main/resources/application.properties:/app/application.properties
+    environment:
+      - SPRING_CONFIG_LOCATION=file:/app/application.properties

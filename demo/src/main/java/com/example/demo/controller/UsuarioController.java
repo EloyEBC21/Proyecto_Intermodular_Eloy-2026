@@ -160,15 +160,15 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public String registrar(
+	 public String registrar(
             @RequestParam String usuario,
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam int edad,
             @RequestParam(required = false) String juegos) { // Añadimos required=false por si no escriben nada
 
+	System.out.println("¡Llegó la petición de registro para: " + usuario + "!");
         Usuario nuevo = new Usuario(usuario, email, password, edad, juegos);
-
         // ¡IMPORTANTE! Debes guardar los juegos en el usuario
         // Asegúrate de tener el método setJuegos(String juegos) en tu clase Usuario
         nuevo.setJuegos(juegos);
@@ -191,6 +191,7 @@ public class UsuarioController {
             HttpSession session) {
         // 1. Obtener o crear la lista del carrito en sesión
         List<Producto> carrito = (List<Producto>) session.getAttribute("carrito");
+        double totalCarrito = 0.0;
         if (carrito == null) {
             carrito = new ArrayList<>();
         }
