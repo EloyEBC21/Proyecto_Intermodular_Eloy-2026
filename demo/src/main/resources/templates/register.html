@@ -22,7 +22,7 @@
             Crea tu cuenta y empieza a jugar
         </p>
 
-        <form th:action="@{/registro}" method="post">
+        <form th:action="@{/register}" method="post" enctype="application/x-www-form-urlencoded">
             <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
             <label>Nombre</label>

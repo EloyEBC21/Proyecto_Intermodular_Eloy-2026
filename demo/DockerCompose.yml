@@ -1,0 +1,6 @@
+services:
+  web:
+    build: .
+    container_name: mi-app-spring
+    network_mode: "host"
+    restart: always

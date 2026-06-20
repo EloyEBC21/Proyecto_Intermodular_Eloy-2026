@@ -159,7 +159,7 @@ public class UsuarioController {
         return "menu";
     }
 
-    @PostMapping("/registro")
+    @PostMapping("/register")
     public String registrar(
             @RequestParam String usuario,
             @RequestParam String email,
