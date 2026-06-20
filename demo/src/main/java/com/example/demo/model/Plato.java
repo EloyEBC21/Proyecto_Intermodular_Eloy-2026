@@ -11,9 +11,6 @@ public class Plato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
-    private Double precioTotal;
-
     // Relación: Un plato puede tener muchos productos
     @ManyToMany
     @JoinTable(

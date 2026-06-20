@@ -25,7 +25,8 @@
 
                     <div th:each="producto : ${entry.value}" th:if="${producto != null}" class="product-card">
                         <div>
-                            <strong th:text="#{producto.__${#strings.replace(producto.nombre, ' ', '_').toLowerCase()}__}">Nombre</strong><br>
+                            <strong
+                                th:text="#{producto.__${#strings.replace(producto.nombre, ' ', '_').toLowerCase()}__}">Nombre</strong><br>
                             <small th:text="${producto.descripcion ?: ''}">Descripción</small><br>
                             <span class="product-price"
                                 th:text="${producto.precio != null} ? ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 2, 'POINT')} + '€' : '0.00€'">
@@ -48,15 +49,27 @@
         <div class="cart-sidebar">
             <h3 th:text="#{menu.cart.title}">🛒 Tu pedido</h3>
 
-            <div th:if="${session.carrito != null}">
+            <div th:if="${session.carrito != null and not #lists.isEmpty(session.carrito)}">
                 <div th:each="item : ${session.carrito}">
-                    <p th:text="#{producto.__${#strings.replace(item.nombre, ' ', '_').toLowerCase()}__} + ' - ' + ${item.precio} + '€'"></p>
+                    <p
+                        th:text="${item.nombre} + ' - ' + ${#numbers.formatDecimal(item.precio, 1, 'COMMA', 2, 'POINT')} + '€'">
+                    </p>
                 </div>
+
                 <hr>
+                <div class="cart-total">
+                    <p>
+                        <strong>Total: </strong>
+                        <span
+                            th:text="${#numbers.formatDecimal(totalCarrito, 1, 'COMMA', 2, 'POINT')} + '€'">0,00€</span>
+                    </p>
+                </div>
+
                 <a th:href="@{/pago}" class="add-button" th:text="#{menu.button.pay}">Ir a pagar</a>
             </div>
 
-            <p th:if="${session.carrito == null}" th:text="#{menu.cart.empty}">Tu carrito está vacío</p>
+            <p th:if="${session.carrito == null or #lists.isEmpty(session.carrito)}" th:text="#{menu.cart.empty}">Tu
+                carrito está vacío</p>
         </div>
 
     </main>

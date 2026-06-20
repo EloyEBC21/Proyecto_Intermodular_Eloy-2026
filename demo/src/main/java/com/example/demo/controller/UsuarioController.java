@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,6 @@ import jakarta.servlet.http.HttpSession; // Importante para la sesión
 @Controller
 public class UsuarioController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
     private List<Usuario> usuarios = new ArrayList<>();
 
     public UsuarioController() {
@@ -147,8 +144,18 @@ public class UsuarioController {
         Map<String, List<Producto>> menuAgrupado = todosLosProductos.stream()
                 .collect(Collectors.groupingBy(Producto::getCategoria));
 
-        // Asegúrate de que este nombre sea exactamente "menu"
         model.addAttribute("menu", menuAgrupado);
+
+        // --- NUEVA LÓGICA DE SUMA ---
+        List<Producto> carrito = (List<Producto>) session.getAttribute("carrito");
+        double totalCarrito = 0.0;
+        if (carrito != null) {
+            // Sumamos los precios de todos los productos del carrito
+            totalCarrito = carrito.stream().mapToDouble(Producto::getPrecio).sum();
+        }
+        model.addAttribute("totalCarrito", totalCarrito);
+        // ----------------------------
+
         return "menu";
     }
 
@@ -184,6 +191,7 @@ public class UsuarioController {
             HttpSession session) {
         // 1. Obtener o crear la lista del carrito en sesión
         List<Producto> carrito = (List<Producto>) session.getAttribute("carrito");
+        double totalCarrito = 0.0;
         if (carrito == null) {
             carrito = new ArrayList<>();
         }

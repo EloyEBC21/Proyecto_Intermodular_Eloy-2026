@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /* Simplemente he borrado una libreria que no se usaba pensando que "LocalDateTime" necesitaba la libreria que he borrado */
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "partidas") // Nombre de la tabla en la BD
