@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,18 +23,20 @@
             Juega, come y conecta con jugadores
         </p>
 
-        <form th:action="@{/login}" method="post">
+        <div th:if="${error}" class="alert alert-danger" style="color: red; margin-bottom: 15px; font-weight: bold;">
+            <p th:text="${error}"></p>
+        </div>
 
+        <form th:action="@{/login}" method="post">
             <label>Nombre</label>
             <input type="text" name="usuario" placeholder="Tu nombre" required>
-            
+
             <label>Contraseña</label>
             <input type="password" name="password" placeholder="••••••••" required>
-            
+
             <button type="submit">
                 Iniciar Sesión
             </button>
-
         </form>
 
         <a th:href="@{/register}" class="link">
@@ -43,4 +46,5 @@
     </div>
 
 </body>
+
 </html>

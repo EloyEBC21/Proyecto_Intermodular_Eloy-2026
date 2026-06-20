@@ -2,9 +2,28 @@ services:
   web:
     build: .
     container_name: mi-app-spring
-    network_mode: "host"
     restart: always
     volumes:
-      - ./src/main/resources/application.properties:/app/application.properties
+      # Montamos el archivo en el directorio de trabajo del contenedor
+      - ./src/main/resources/application.properties:/app/config/application.properties
     environment:
-      - SPRING_CONFIG_LOCATION=file:/app/application.properties
+      # Apuntamos a la carpeta de configuración donde acabamos de montar el archivo
+      - SPRING_CONFIG_LOCATION=file:/app/config/application.properties
+      # Forzamos a Spring a que sepa que está en producción
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - "8080:8080"
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: tienda_db
+      MYSQL_ROOT_PASSWORD: tu_contraseña
+    ports:
+      - "3307:3306"
+    volumes:
+      # AQUÍ ESTÁ EL TRUCO:
+      # Mapeamos la carpeta que creamos fuera, hacia la carpeta interna de MySQL
+      - ./mysql_data:/var/lib/mysql
+      # Opcional: tu script de inicialización para que la BD se cree sola
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

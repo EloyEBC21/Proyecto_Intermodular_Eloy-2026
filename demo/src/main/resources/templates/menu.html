@@ -20,13 +20,11 @@
 
             <div th:if="${menu != null}">
                 <div th:each="entry : ${menu}">
-                    <h3 th:text="#{menu.category.__${entry.key.toLowerCase()}__}"
-                        style="color: #ff6b35; margin-top: 25px;">Categoría</h3>
+                    <h3 th:text="${entry.key}" style="color: #ff6b35; margin-top: 25px;">Categoría</h3>
 
                     <div th:each="producto : ${entry.value}" th:if="${producto != null}" class="product-card">
                         <div>
-                            <strong
-                                th:text="#{producto.__${#strings.replace(producto.nombre, ' ', '_').toLowerCase()}__}">Nombre</strong><br>
+                            <strong th:text="${producto.nombre}">Nombre</strong><br>
                             <small th:text="${producto.descripcion ?: ''}">Descripción</small><br>
                             <span class="product-price"
                                 th:text="${producto.precio != null} ? ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', 2, 'POINT')} + '€' : '0.00€'">
@@ -37,7 +35,7 @@
                         <form th:action="@{/menu/agregar}" method="post">
                             <input type="hidden" name="nombre" th:value="${producto.nombre}" />
                             <input type="hidden" name="precio" th:value="${producto.precio}" />
-                            <button type="submit" class="add-button" th:text="#{menu.button.add}">Añadir</button>
+                            <button type="submit" class="add-button">Añadir</button>
                         </form>
                     </div>
                 </div>
@@ -50,10 +48,20 @@
             <h3 th:text="#{menu.cart.title}">🛒 Tu pedido</h3>
 
             <div th:if="${session.carrito != null and not #lists.isEmpty(session.carrito)}">
-                <div th:each="item : ${session.carrito}">
-                    <p
-                        th:text="${item.nombre} + ' - ' + ${#numbers.formatDecimal(item.precio, 1, 'COMMA', 2, 'POINT')} + '€'">
-                    </p>
+                <div th:each="item, itemStat : ${session.carrito}">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+
+                        <p style="margin: 0;"
+                            th:text="${item.nombre} + ' - ' + ${#numbers.formatDecimal(item.precio, 1, 'COMMA', 2, 'POINT')} + '€'">
+                        </p>
+
+                        <form th:action="@{/menu/eliminar}" method="post" style="margin: 0;">
+                            <input type="hidden" name="indice" th:value="${itemStat.index}" />
+                            <button type="submit"
+                                style="background: red; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 2px 8px;">X</button>
+                        </form>
+                    </div>
                 </div>
 
                 <hr>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,11 @@
 
         <h1>Únete a Game & Grill</h1>
 
+        <div th:if="${error}" class="alert alert-danger"
+            style="color: red; margin-bottom: 15px; border: 1px solid red; padding: 10px;">
+            <p th:text="${error}"></p>
+        </div>
+
         <p class="subtitle">
             Crea tu cuenta y empieza a jugar
         </p>
@@ -27,19 +33,19 @@
 
             <label>Nombre</label>
             <input type="text" name="usuario" placeholder="Tu nombre" required>
-            
+
             <label>Email</label>
             <input type="email" name="email" placeholder="tu@email.com" required>
-            
+
             <label>Contraseña</label>
             <input type="password" name="password" placeholder="••••••••" required>
-            
+
             <label>Edad</label>
             <input type="number" name="edad" placeholder="Edad">
-            
+
             <label>Juegos favoritos</label>
             <input type="text" name="juegos" placeholder="Ej: D&D, Pokemon, Magic...">
-            
+
             <button type="submit">
                 Registrarse
             </button>
@@ -53,4 +59,5 @@
     </div>
 
 </body>
+
 </html>
