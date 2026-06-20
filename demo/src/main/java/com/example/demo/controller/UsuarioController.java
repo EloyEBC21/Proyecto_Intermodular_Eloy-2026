@@ -191,7 +191,6 @@ public class UsuarioController {
             HttpSession session) {
         // 1. Obtener o crear la lista del carrito en sesión
         List<Producto> carrito = (List<Producto>) session.getAttribute("carrito");
-        double totalCarrito = 0.0;
         if (carrito == null) {
             carrito = new ArrayList<>();
         }
