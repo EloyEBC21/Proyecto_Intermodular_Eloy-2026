@@ -1,3 +1,10 @@
+-- Limpieza total para evitar duplicados
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE usuarios;
+TRUNCATE TABLE productos;
+TRUNCATE TABLE partidas;
+SET FOREIGN_KEY_CHECKS = 1;
+
 -- ==========================================================
 -- 1. USUARIOS
 -- ==========================================================

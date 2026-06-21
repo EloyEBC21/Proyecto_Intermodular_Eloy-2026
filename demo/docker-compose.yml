@@ -4,15 +4,18 @@ services:
     container_name: mi-app-spring
     restart: always
     volumes:
-      # Montamos el archivo en el directorio de trabajo del contenedor
       - ./src/main/resources/application.properties:/app/config/application.properties
     environment:
-      # Apuntamos a la carpeta de configuración donde acabamos de montar el archivo
       - SPRING_CONFIG_LOCATION=file:/app/config/application.properties
-      # Forzamos a Spring a que sepa que está en producción
       - SPRING_PROFILES_ACTIVE=prod
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
   db:
     image: mysql:8.0
     restart: always
@@ -22,8 +25,31 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      # AQUÍ ESTÁ EL TRUCO:
-      # Mapeamos la carpeta que creamos fuera, hacia la carpeta interna de MySQL
       - ./mysql_data:/var/lib/mysql
-      # Opcional: tu script de inicialización para que la BD se cree sola
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - web
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
